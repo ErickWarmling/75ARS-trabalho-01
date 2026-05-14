@@ -1,6 +1,6 @@
-# Trabalho 01 - 75ARQ
+# Trabalho 01 - 75ARS
 
-💻 Repositório destinado ao Trabalho 01 da disciplina de Arquitetura de Software (75ARQ).
+💻 Repositório destinado ao Trabalho 01 da disciplina de Arquitetura de Software (75ARS).
 
 ---
 
