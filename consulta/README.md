@@ -49,11 +49,23 @@ npm start
 
 ## Endpoints
 
+### GET `/api/consultas`
+
+Lista todas as consultas cadastradas.
+
+### GET `/api/animais`
+
+Lista animais via API de animais (proxy).
+
+### GET `/api/tutores`
+
+Lista tutores via API de animais → API de tutores (proxy em cadeia).
+
 ### POST `/api/consultas`
 
-Cadastra o animal na API de animais e, em seguida, grava a consulta.
+Grava a consulta vinculando um animal existente (`animal.id`) ou cadastrando um novo animal na API de animais (que pode usar tutor existente ou novo).
 
-**Request:**
+**Request (animal e tutor novos):**
 
 ```json
 {
@@ -74,6 +86,32 @@ Cadastra o animal na API de animais e, em seguida, grava a consulta.
 }
 ```
 
+**Request (animal existente):**
+
+```json
+{
+  "dataHora": "2026-05-19T14:30:00.000Z",
+  "motivo": "Retorno",
+  "veterinario": "Dr. Carlos",
+  "animal": { "id": 1 }
+}
+```
+
+**Request (animal novo com tutor existente):**
+
+```json
+{
+  "dataHora": "2026-05-19T14:30:00.000Z",
+  "motivo": "Check-up",
+  "veterinario": "Dra. Ana",
+  "animal": {
+    "nome": "Mimi",
+    "especie": "Gato",
+    "tutor": { "id": 1 }
+  }
+}
+```
+
 **Response (201):** consulta criada com `id` e dados do animal.
 
 ### GET `/api/consultas/:id`
@@ -82,6 +120,7 @@ Cadastra o animal na API de animais e, em seguida, grava a consulta.
 
 ```json
 {
+  "id": 1,
   "dataHora": "2026-05-19T14:30:00.000Z",
   "motivo": "Vacinação anual",
   "observacoes": "Animal apresentou leve febre",

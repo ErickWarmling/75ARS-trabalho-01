@@ -17,6 +17,10 @@ function validarCadastro(body) {
   }
   if (!body.animal || typeof body.animal !== 'object') {
     erros.push('animal é obrigatório');
+  } else if (body.animal.id) {
+    if (!Number.isInteger(Number(body.animal.id)) || Number(body.animal.id) <= 0) {
+      erros.push('animal.id inválido');
+    }
   } else {
     if (!body.animal.nome || typeof body.animal.nome !== 'string') {
       erros.push('animal.nome é obrigatório');
@@ -26,6 +30,13 @@ function validarCadastro(body) {
     }
     if (!body.animal.tutor || typeof body.animal.tutor !== 'object') {
       erros.push('animal.tutor é obrigatório');
+    } else if (body.animal.tutor.id) {
+      if (
+        !Number.isInteger(Number(body.animal.tutor.id)) ||
+        Number(body.animal.tutor.id) <= 0
+      ) {
+        erros.push('animal.tutor.id inválido');
+      }
     } else {
       if (!body.animal.tutor.nome || typeof body.animal.tutor.nome !== 'string') {
         erros.push('animal.tutor.nome é obrigatório');
@@ -66,6 +77,15 @@ async function cadastrar(req, res, next) {
   }
 }
 
+async function listar(req, res, next) {
+  try {
+    const consultas = await consultaService.listarConsultas();
+    return res.json(consultas);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function buscarPorId(req, res, next) {
   try {
     const id = Number(req.params.id);
@@ -84,4 +104,28 @@ async function buscarPorId(req, res, next) {
   }
 }
 
-module.exports = { cadastrar, buscarPorId };
+async function listarAnimais(req, res, next) {
+  try {
+    const animais = await consultaService.listarAnimais();
+    return res.json(animais);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function listarTutores(req, res, next) {
+  try {
+    const tutores = await consultaService.listarTutores();
+    return res.json(tutores);
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = {
+  cadastrar,
+  listar,
+  buscarPorId,
+  listarAnimais,
+  listarTutores,
+};

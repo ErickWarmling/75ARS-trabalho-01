@@ -61,5 +61,14 @@ services:
       animal:
         condition: service_started
 
+  frontend:
+    build: ./frontend
+    ports:
+      - "8081:80"
+    environment:
+      CONSULTA_API_URL: http://localhost:3001/api
+    depends_on:
+      - consulta
+
 volumes:
   postgres_data:

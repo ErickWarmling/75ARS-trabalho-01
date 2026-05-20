@@ -11,6 +11,10 @@ function validarCadastro(body) {
   }
   if (!body.tutor || typeof body.tutor !== 'object') {
     erros.push('tutor é obrigatório');
+  } else if (body.tutor.id) {
+    if (!Number.isInteger(Number(body.tutor.id)) || Number(body.tutor.id) <= 0) {
+      erros.push('tutor.id inválido');
+    }
   } else {
     if (!body.tutor.nome || typeof body.tutor.nome !== 'string') {
       erros.push('tutor.nome é obrigatório');
@@ -46,6 +50,24 @@ async function cadastrar(req, res, next) {
   }
 }
 
+async function listar(req, res, next) {
+  try {
+    const animais = await animalService.listarAnimais();
+    return res.json(animais);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function listarTutores(req, res, next) {
+  try {
+    const tutores = await animalService.listarTutores();
+    return res.json(tutores);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function buscarPorId(req, res, next) {
   try {
     const id = Number(req.params.id);
@@ -64,4 +86,4 @@ async function buscarPorId(req, res, next) {
   }
 }
 
-module.exports = { cadastrar, buscarPorId };
+module.exports = { cadastrar, listar, listarTutores, buscarPorId };
