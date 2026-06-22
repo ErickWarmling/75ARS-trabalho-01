@@ -1,5 +1,5 @@
 const express = require('express');
-const animalRoutes = require('./routes/animalRoutes');
+const consultaRoutes = require('./routes/consultaRoutes');
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.options(/.*/, (_req, res) => res.sendStatus(204));
 
 app.use(express.json());
 
-app.use('/api', animalRoutes);
+app.use('/api', consultaRoutes);
 
 app.use((err, _req, res, _next) => {
   if (err.status) {

@@ -47,5 +47,28 @@ services:
       tutor:
         condition: service_healthy
 
+  consulta:
+    build: ./consulta
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgresql://postgres:admin@postgres:5432/75ARS
+      ANIMAL_API_URL: http://animal:3000/api
+    depends_on:
+      postgres:
+        condition: service_healthy
+      animal:
+        condition: service_started
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8081:80"
+    environment:
+      CONSULTA_API_URL: http://localhost:3001/api
+    depends_on:
+      - consulta
+
 volumes:
   postgres_data:
